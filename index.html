@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link ref="style.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+</style>
+<body>
+    <div class="talentSelect">
+        <p>Hu Tao Skill Level</p>
+        <input type="number" id="talentLevelSelect">
+    </div>
+    <div class = "levelSelect">
+        <p>Character Level</p>
+        <input type = "number" id="charLevelInput" onkeyup = "checkCharAscension()">
+        <input type="checkbox" id = "charAscensionCheckbox" style="display: none;">
+    </div>
+    <div class="weaponSelect">
+        <p>Weapon Level:</p>
+        <input type = "number" id="weaponLevelInput" onkeyup = "checkWeaponAscension()">
+        <select id="weaponSelect">
+            <option value = "608">Staff of Homa</option>
+            <option value = "674">Skyward Spine</option>
+            <option value = "741">Calamity Queller</option>
+            <option value = "674">Primordial Jade Winged-Spear</option>
+            <option value = "542">Staff of the Scarlet Sands</option>
+            <option value = "608">Vortex Vanquisher</option>
+            <option value = "510">The Catch</option>
+            <option value = "510">Blackcliff Pole</option>
+            <option value = "565">Crescent Pike</option>
+            <option value = "454">Deathmatch</option>
+            <option value = "454">Dragon's Bane</option>
+            <option value = "454">Dragonspine Spear</option>
+            <option value = "565">Favonius Lance</option>
+            <option value = "565">Kitain Cross Spear</option>
+            <option value = "565">Lithic Spear</option>
+            <option value = "510">Missive Windspear</option>
+            <option value = "565">Moonpiercer</option>
+            <option value = "510">Prototype Starglitter</option>
+            <option value = "565">Royal Spear</option>
+            <option value = "620">Wavebreaker's Fin</option>
+            <option value = "354">Black Tassel</option>
+            <option value = "448">Halberd</option>
+            <option value = "401">White Tassel</option>
+        </select>
+        <input type="checkbox" id = "weaponAscensionCheckbox" style="display: none;">
+    </div>
+    
+    <button onclick = "update()">Submit</button>
+
+    <p>Hu Tao Base ATK:</p>
+    <p id="charBaseATKOutput"></p>
+
+    <p>Weapon Base ATK:<p>
+    <p id="weaponBaseATKOutput"></p>
+
+    <p>HP Cap:</p>
+    <p id="hpCap"></p>
+</body>
+<script>
+    // document elements
+    const charLevelInput = document.getElementById("charLevelInput");
+    const charBaseATKOutput = document.getElementById("charBaseATKOutput");
+    const charAscensionCheckboxDOM = document.getElementById("charAscensionCheckbox");
+    const weaponLevel = document.getElementById("weaponLevelInput");
+    const weaponClass = document.getElementById("weaponSelect");
+    const weaponCheckbox = document.getElementById("weaponAscensionCheckbox");
+    const weaponBaseATKOutput = document.getElementById("weaponBaseATKOutput");
+    const talentLevelSelect = document.getElementById("talentLevelSelect");
+    const hpCapDOM = document.getElementById("hpCap");
+
+    // stuff for stats
+    const ascensionBreakpoints = [20, 40, 50, 60, 70, 80];
+    const skillHPScaling = [3.84, 4.07, 4.3, 4.6, 4.83, 5.06, 5.36, 5.66, 5.96, 6.26, 6.56, 6.85, 7.15, 7.45, 7.75];
+    let talentLevel = talentLevelSelect.value;
+    const charLevelScaling = 0.086955;
+    const charAscensionScaling = [0, 7.103891, 12.15139, 18.8814, 23.9289, 28.9764, 34.0239];
+    const charBaseATKScaling = 8.2859;
+
+    function isInArr(level)
+    {
+        for(let i = 0; i<ascensionBreakpoints.length; i++) {
+            if(level == ascensionBreakpoints[i]) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function checkWeaponAscension() {
+        if(isInArr(weaponLevel.value)) {
+            weaponCheckbox.style.display = "block";
+        }
+        else
+        {
+            weaponCheckbox.style.display = "none";
+        }
+    }
+
+    function checkCharAscension() {
+        if(isInArr(charLevelInput.value)) {
+            charAscensionCheckboxDOM.style.display = "block";
+        }
+        else
+        {
+            charAscensionCheckboxDOM.style.display = "none";
+        }
+    }
+
+    const class542 = {
+        baseATK: 44.34,
+        scalingPerLevel: 0.078764,
+        scalingPerAscension: 31.1
+    }
+
+    const class608 = {
+        baseATK: 45.94,
+        scalingPerLevel: 0.091831,
+        scalingPerAscension: 31.1
+    }
+
+    const class674 = {
+        baseATK: 47.54,
+        scalingPerLevel: 0.104022,
+        scalingPerAscension: 31.1
+    }
+
+    const class741 = {
+        baseATK: 49.13,
+        scalingPerLevel: 0.115416,
+        scalingPerAscension: 31.1
+    }
+
+    const class454 = {
+        baseATK: 41.07,
+        scalingPerLevel: 0.070506,
+        scalingPerAscension: 25.95
+    }
+
+    const class510 = {
+        baseATK: 42.40,
+        scalingPerLevel: 0.082573,
+        scalingPerAscension: 25.95
+    }
+
+    const class565 = {
+        baseATK: 43.73,
+        scalingPerLevel: 0.093888,
+        scalingPerAscension: 25.95
+    }
+
+    const class620 = {
+        baseATK: 45.07,
+        scalingPerLevel: 0.104551,
+        scalingPerAscension: 25.95
+    }
+
+    const class354 = {
+        baseATK: 37.61,
+        scalingPerLevel: 0.059775,
+        scalingPerAscension: 19.45
+    }
+
+    const class401 = {
+        baseATK: 38.74,
+        scalingPerLevel: 0.071303,
+        scalingPerAscension: 19.45
+    }
+
+    const class448 = {
+        baseATK: 39.88,
+        scalingPerLevel: 0.08218,
+        scalingPerAscension: 19.45
+    }
+
+    function update() {
+        // weapon stuff
+        let weaponBaseATK = 0;
+        let weaponAscensions = 0;
+        let weapLevel = weaponLevel.value;
+
+        // char level stuff
+        let charLevel = charLevelInput.value;
+        let charAscensions = 0;
+        let charBaseATK = 0;
+
+        let talentLevel = 0;
+
+        // finding talent level
+        talentLevel = talentLevelSelect.value;
+        if(talentLevel > 0 && talentLevel < 16) {
+            // valid
+        }
+        else {
+            // invalid
+        }
+
+        // finding char base atk
+        if(charLevel > 80) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[6];
+        }
+        else if(charLevel == 80) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[6];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[5];
+            }
+        }
+        else if(charLevel > 70 && charLevel < 80) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[5];
+        }
+        else if(charLevel == 70) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[5];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[4];
+            }
+        }
+        else if(charLevel > 60 && charLevel < 70) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[4];
+        }
+        else if(charLevel == 60) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[4];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[3];
+            }
+        }
+        else if(charLevel > 50 && charLevel < 60) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[3];
+        }
+        else if(charLevel == 50) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[3];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[2];
+            }
+        }
+        else if(charLevel > 40 && charLevel < 50) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[2];
+        }
+        else if(charLevel == 40) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[2];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[1];
+            }
+        }
+        else if(charLevel > 20 && charLevel < 40) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[1];
+        }
+        else if(charLevel == 20) {
+            if(charAscensionCheckboxDOM.checked) {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[1];
+            }
+            else {
+                charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[0];
+            }
+        }
+        else if(charLevel > 0 && charLevel < 20) {
+            charBaseATK = (((charLevel-1)*charLevelScaling)+1)*charBaseATKScaling+charAscensionScaling[0];
+        }
+        else {
+            // handle error here
+        }
+        charBaseATKOutput.innerText = Math.round(charBaseATK);
+
+
+        // finding weapon base atk
+        if(weapLevel > 80) {
+            weaponAscensions = 6;
+        }
+        else if(weapLevel == 80) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 6;
+            }
+            else {
+                weaponAscensions = 5;
+            }
+        }
+        else if(weapLevel > 70 && weapLevel < 80) {
+            weaponAscensions = 5;
+        }
+        else if(weapLevel == 70) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 5;
+            }
+            else {
+                weaponAscensions = 4;
+            }
+        }
+        else if(weapLevel > 60 && weapLevel < 70) {
+            weaponAscensions = 4;
+        }
+        else if(weapLevel == 60) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 4;
+            }
+            else {
+                weaponAscensions = 3;
+            }
+        }
+        else if(weapLevel > 50 && weapLevel < 60) {
+            weaponAscensions = 3;
+        }
+        else if(weapLevel == 50) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 3;
+            }
+            else {
+                weaponAscensions = 2;
+            }
+        }
+        else if(weapLevel > 40 && weapLevel < 50) {
+            weaponAscensions = 2;
+        }
+        else if(weapLevel == 40) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 2;
+            }
+            else {
+                weaponAscensions = 1;
+            }
+        }
+        else if(weapLevel > 20 && weapLevel < 40) {
+            weaponAscensions = 1;
+        }
+        else if(weapLevel == 20) {
+            if(weaponCheckbox.checked) {
+                weaponAscensions = 1;
+            }
+            else {
+                weaponAscensions = 0;
+            }
+        }
+        else if(weapLevel > 0 && weapLevel < 20) {
+            weaponAscensions = 0;
+        }
+        else {
+            // handle some error here
+            weaponAscensions = -1;
+        }
+
+        switch(weaponClass.value) {
+            case "542":
+                weaponBaseATK = Math.round(weaponAscensions*(class542.scalingPerAscension) + class542.baseATK*(1+(weapLevel-1)*class542.scalingPerLevel));
+                console.log("class 542 weapon detected!");
+                break;
+            case "608":
+                weaponBaseATK = Math.round(weaponAscensions*(class608.scalingPerAscension) + class608.baseATK*(1+(weapLevel-1)*class608.scalingPerLevel));
+                console.log("class 608 weapon detected!");
+                break;
+            case "674":
+                weaponBaseATK = Math.round(weaponAscensions*(class674.scalingPerAscension) + class674.baseATK*(1+(weapLevel-1)*class674.scalingPerLevel));
+                console.log("class 674 weapon detected!");
+                break;
+            case "741":
+                weaponBaseATK = Math.round(weaponAscensions*(class741.scalingPerAscension) + class741.baseATK*(1+(weapLevel-1)*class741.scalingPerLevel));
+                console.log("class 741 weapon detected!");
+                break;
+            case "454":
+                weaponBaseATK = Math.round(weaponAscensions*(class454.scalingPerAscension) + class454.baseATK*(1+(weapLevel-1)*class454.scalingPerLevel));
+                console.log("class 454 weapon detected!");
+                break;
+            case "510":
+                weaponBaseATK = Math.round(weaponAscensions*(class510.scalingPerAscension) + class510.baseATK*(1+(weapLevel-1)*class510.scalingPerLevel));
+                console.log("class 510 weapon detected!");
+                break;
+            case "565":
+                weaponBaseATK = Math.round(weaponAscensions*(class565.scalingPerAscension) + class565.baseATK*(1+(weapLevel-1)*class565.scalingPerLevel));
+                console.log("class 565 weapon detected!");
+                break;
+            case "620":
+                weaponBaseATK = Math.round(weaponAscensions*(class620.scalingPerAscension) + class620.baseATK*(1+(weapLevel-1)*class620.scalingPerLevel));
+                console.log("class 620 weapon detected!");
+                break;
+            case "354":
+                weaponBaseATK = Math.round(weaponAscensions*(class354.scalingPerAscension) + class354.baseATK*(1+(weapLevel-1)*class354.scalingPerLevel));
+                console.log("class 620 weapon detected!");
+                break;
+            case "401":
+                weaponBaseATK = Math.round(weaponAscensions*(class401.scalingPerAscension) + class401.baseATK*(1+(weapLevel-1)*class401.scalingPerLevel));
+                console.log("class 401 weapon detected!");
+                break;
+            case "448":
+                weaponBaseATK = Math.round(weaponAscensions*(class448.scalingPerAscension) + class448.baseATK*(1+(weapLevel-1)*class448.scalingPerLevel));
+                console.log("class 448 weapon detected!");
+                break;
+        }
+
+        hpCap = (4*(weaponBaseATK+charBaseATK))/(skillHPScaling[talentLevel-1]/100);
+        hpCapDOM.innerText = hpCap;
+        weaponBaseATKOutput.innerText = weaponBaseATK;
+    }
+</script>
+</html>
