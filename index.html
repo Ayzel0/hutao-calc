@@ -1,54 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link ref="style.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
 <style>
-    
+    .flex-container {
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        margin: auto;
+        width: 50%;
+        background: rgb(58, 28, 28);
+        text-align: center;
+    }
+
+    .flex-container-column {
+        margin: 20px auto 20px;
+    }
+
+    .flex-container-column p {
+        margin: 0px;
+        margin-bottom: 10px;
+    }
+
+    .white-text {
+        color: white;
+        font-family: 'Trebuchet MS';
+    }
+
+    #weaponCheckboxContainer {
+        height: 0px;
+        transition: height 0.5s ease;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: middle;
+        justify-content: center;
+    }
+
+    #charCheckboxContainer {
+        height: 0px;
+        transition: height 0.5s ease;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: middle;
+        justify-content: center;
+    }
+
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+
+    .input-label {
+        font-size: 22px;
+        padding: 8px;
+    }
 </style>
 <body>
-    <div class="talentSelect">
-        <p>Hu Tao Skill Level</p>
-        <input type="number" id="talentLevelSelect">
-    </div>
-    <div class = "levelSelect">
-        <p>Character Level</p>
-        <input type = "number" id="charLevelInput" onkeyup = "checkCharAscension()">
-        <input type="checkbox" id = "charAscensionCheckbox" style="display: none;">
-    </div>
-    <div class="weaponSelect">
-        <p>Weapon Level:</p>
-        <input type = "number" id="weaponLevelInput" onkeyup = "checkWeaponAscension()">
-        <select id="weaponSelect">
-            <option value = "608">Staff of Homa</option>
-            <option value = "674">Skyward Spine</option>
-            <option value = "741">Calamity Queller</option>
-            <option value = "674">Primordial Jade Winged-Spear</option>
-            <option value = "542">Staff of the Scarlet Sands</option>
-            <option value = "608">Vortex Vanquisher</option>
-            <option value = "510">The Catch</option>
-            <option value = "510">Blackcliff Pole</option>
-            <option value = "565">Crescent Pike</option>
-            <option value = "454">Deathmatch</option>
-            <option value = "454">Dragon's Bane</option>
-            <option value = "454">Dragonspine Spear</option>
-            <option value = "565">Favonius Lance</option>
-            <option value = "565">Kitain Cross Spear</option>
-            <option value = "565">Lithic Spear</option>
-            <option value = "510">Missive Windspear</option>
-            <option value = "565">Moonpiercer</option>
-            <option value = "510">Prototype Starglitter</option>
-            <option value = "565">Royal Spear</option>
-            <option value = "620">Wavebreaker's Fin</option>
-            <option value = "354">Black Tassel</option>
-            <option value = "448">Halberd</option>
-            <option value = "401">White Tassel</option>
-        </select>
-        <input type="checkbox" id = "weaponAscensionCheckbox" style="display: none;">
+    <div class="flex-container white-text">
+        <div class = "talentSelect flex-container-column">
+            <p class="input-label">Hu Tao Skill Level</p>
+            <input type="number" id="talentLevelSelect">
+        </div>
+        <div class = "levelSelect flex-container-column">
+            <p class="input-label">Character Level</p>
+            <input type = "number" id = "charLevelInput" onkeyup = "checkCharAscension()">
+            <div id="charCheckboxContainer">
+                <label class="container">Ascended?
+                    <input type = "checkbox" id = "charAscensionCheckbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        <div class = "weaponLevelSelect flex-container-column">
+            <p class="input-label">Weapon Level:</p>
+            <input type = "number" id="weaponLevelInput" onkeyup = "checkWeaponAscension()">
+            <div id="weaponCheckboxContainer">
+                <label class="container">Ascended?
+                    <input type = "checkbox" id = "weaponAscensionCheckbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+        </div>
+        <div class = "weaponNameSelect flex-container-column">
+            <p class="input-label">Weapon Name:</p>
+            <select id="weaponSelect">
+                <option value = "608">Staff of Homa</option>
+                <option value = "674">Skyward Spine</option>
+                <option value = "741">Calamity Queller</option>
+                <option value = "674">Primordial Jade Winged-Spear</option>
+                <option value = "542">Staff of the Scarlet Sands</option>
+                <option value = "608">Vortex Vanquisher</option>
+                <option value = "510">The Catch</option>
+                <option value = "510">Blackcliff Pole</option>
+                <option value = "565">Crescent Pike</option>
+                <option value = "454">Deathmatch</option>
+                <option value = "454">Dragon's Bane</option>
+                <option value = "454">Dragonspine Spear</option>
+                <option value = "565">Favonius Lance</option>
+                <option value = "565">Kitain Cross Spear</option>
+                <option value = "565">Lithic Spear</option>
+                <option value = "510">Missive Windspear</option>
+                <option value = "565">Moonpiercer</option>
+                <option value = "510">Prototype Starglitter</option>
+                <option value = "565">Royal Spear</option>
+                <option value = "620">Wavebreaker's Fin</option>
+                <option value = "354">Black Tassel</option>
+                <option value = "448">Halberd</option>
+                <option value = "401">White Tassel</option>
+            </select>
+        </div>
     </div>
     
     <button onclick = "update()">Submit</button>
@@ -67,8 +196,10 @@
     const charLevelInput = document.getElementById("charLevelInput");
     const charBaseATKOutput = document.getElementById("charBaseATKOutput");
     const charAscensionCheckboxDOM = document.getElementById("charAscensionCheckbox");
+    const charCheckboxContainer = document.getElementById("charCheckboxContainer");
     const weaponLevel = document.getElementById("weaponLevelInput");
     const weaponClass = document.getElementById("weaponSelect");
+    const weaponCheckboxContainer = document.getElementById("weaponCheckboxContainer");
     const weaponCheckbox = document.getElementById("weaponAscensionCheckbox");
     const weaponBaseATKOutput = document.getElementById("weaponBaseATKOutput");
     const talentLevelSelect = document.getElementById("talentLevelSelect");
@@ -94,21 +225,21 @@
 
     function checkWeaponAscension() {
         if(isInArr(weaponLevel.value)) {
-            weaponCheckbox.style.display = "block";
+            weaponCheckboxContainer.style.height = "70px";
         }
         else
         {
-            weaponCheckbox.style.display = "none";
+            weaponCheckboxContainer.style.height = "0px";
         }
     }
 
     function checkCharAscension() {
         if(isInArr(charLevelInput.value)) {
-            charAscensionCheckboxDOM.style.display = "block";
+            charCheckboxContainer.style.height = "70px";
         }
         else
         {
-            charAscensionCheckboxDOM.style.display = "none";
+            charCheckboxContainer.style.height = "0px";
         }
     }
 
