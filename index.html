@@ -7,6 +7,10 @@
     <title>Document</title>
 </head>
 <style>
+    #dark-theme {
+        background: rgb(24, 24, 24);
+    }
+
     .flex-container {
         display: flex;
         flex-direction: row;
@@ -17,7 +21,7 @@
         text-align: center;
     }
 
-    @media screen and (max-width: 1200px) {
+    @media screen and (max-width: 1000px) {
         .flex-container {
             flex-direction: column;
         }
@@ -167,7 +171,7 @@
         font-size: 26px;
     }
 </style>
-<body>
+<body id="dark-theme">
     <div class="calculator-container">
         <div class="flex-container white-text">
             <div class = "talentSelect flex-container-column">
@@ -228,7 +232,6 @@
             <p class="output-text">HP Cap: <span id="hpCap"></span></p>
         </div>
     </div>
-    <p>Hello</p>
 </body>
 <script>
     // document elements
