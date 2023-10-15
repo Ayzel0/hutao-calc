@@ -175,11 +175,11 @@
         <div class="flex-container white-text">
             <div class = "talentSelect flex-container-column">
                 <p class="input-label">Hu Tao Skill Level</p>
-                <input type="number" id="talentLevelSelect">
+                <input type="number" max="13" min="0" id="talentLevelSelect">
             </div>
             <div class = "levelSelect flex-container-column">
                 <p class="input-label">Character Level</p>
-                <input type = "number" id = "charLevelInput" onkeyup = "checkCharAscension()">
+                <input type = "number" max="90" min="0" id = "charLevelInput" onkeyup = "checkCharAscension()">
                 <div id="charCheckboxContainer">
                     <label class="container">Ascended?
                         <input type = "checkbox" id = "charAscensionCheckbox">
@@ -189,7 +189,7 @@
             </div>
             <div class = "weaponLevelSelect flex-container-column">
                 <p class="input-label">Weapon Level:</p>
-                <input type = "number" id="weaponLevelInput" onkeyup = "checkWeaponAscension()">
+                <input type = "number" max="90" min="0" id="weaponLevelInput" onkeyup = "checkWeaponAscension()">
                 <div id="weaponCheckboxContainer">
                     <label class="container">Ascended?
                         <input type = "checkbox" id = "weaponAscensionCheckbox">
