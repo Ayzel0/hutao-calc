@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/hutao.png">
     <title>Hu Tao HP Cap Calculator</title>
 </head>
 <style>
@@ -178,6 +179,7 @@
 
     .slider {
         -webkit-appearance: none;
+        appearance: none;
         width: 100%;
         height: 10px;
         border-radius: 5px;
@@ -208,6 +210,10 @@
         border-radius: 50%;
         background: #4CAF50;
         cursor: pointer;
+    }
+
+    #credits{
+        color: #ccc;
     }
 </style>
 
@@ -279,6 +285,7 @@
         <div class="output-display">
             <p class="output-text">HP Cap: <span id="hpCap"></span></p>
         </div>
+        <span id="credits">Credits to: <a target="_blank" href="https://github.com/Ayzel0">Ayzel0</a> for the original work ( <a target="_blank" href="https://ayzel0.github.io/hutao-calc/">Original</a> )</span>
     </div>
 </body>
 <script>
